@@ -1,4 +1,5 @@
 import logging
+from importlib.metadata import version
 from typing import Any, Mapping, Optional, Sequence
 
 import aiohttp
@@ -10,7 +11,6 @@ from yarl import URL
 from neuro_notifications_client.schema import SLUG_TO_SCHEMA
 
 from .notifications import Notification
-from .version import VERSION
 
 
 logger = logging.getLogger(__name__)
@@ -24,7 +24,10 @@ class Client:
         trace_configs: Sequence[aiohttp.TraceConfig] = (),
     ) -> None:
         self._url = url
-        self._token = token
+        self._headers: Mapping[str, str] = {
+            AUTHORIZATION: f"Bearer {token}",
+            USER_AGENT: f"NotificationsClient/{version(__package__)}",
+        }
         self._trace_configs = list(trace_configs)
         self._client: Optional[aiohttp.ClientSession] = None
 
@@ -52,11 +55,7 @@ class Client:
             await client.close()
 
     def _generate_headers(self) -> Mapping[str, str]:
-        headers: Mapping[str, str] = {
-            AUTHORIZATION: f"Bearer {self._token}",
-            USER_AGENT: f"NotificationsClient/{VERSION}",
-        }
-        return headers
+        return self._headers
 
     def _make_url(self, path: str) -> URL:
         if path.startswith("/"):
