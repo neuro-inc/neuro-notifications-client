@@ -3,9 +3,9 @@ from typing import AsyncIterator, Awaitable, Callable
 
 import aiohttp.web
 import pytest
-from aiohttp.abc import Application
 from aiohttp.hdrs import AUTHORIZATION
 from aiohttp.test_utils import TestServer as AioHTTPTestServer
+from aiohttp.web import Application
 
 from neuro_notifications_client import Client
 from neuro_notifications_client.notifications import Notification
