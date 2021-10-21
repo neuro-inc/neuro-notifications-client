@@ -1,7 +1,6 @@
 -e .
 black==21.8b0
 flake8==3.9.2
-flake8-isort==4.0.0
 iso8601>=0.1.12
 isort==5.9.3
 mypy==0.910
