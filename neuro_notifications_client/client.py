@@ -62,6 +62,7 @@ class Client:
         return self._headers
 
     def _make_url(self, path: str) -> URL:
+        assert self._url
         if path.startswith("/"):
             path = path[1:]
         return self._url / path
