@@ -19,10 +19,14 @@ logger = logging.getLogger(__name__)
 class Client:
     def __init__(
         self,
-        url: URL,
+        url: Optional[URL],
         token: str,
         trace_configs: Sequence[aiohttp.TraceConfig] = (),
     ) -> None:
+        if url is not None and not url:
+            raise ValueError(
+                "url argument should be http URL or None for secure-less configurations"
+            )
         self._url = url
         self._headers: Mapping[str, str] = {
             AUTHORIZATION: f"Bearer {token}",
@@ -32,7 +36,7 @@ class Client:
         self._client: Optional[aiohttp.ClientSession] = None
 
     async def init(self) -> None:
-        if not self._url:
+        if self._url is None:
             return
         if self._client is None:  # pragma: no branch
             self._client = aiohttp.ClientSession(
@@ -71,7 +75,7 @@ class Client:
         return self._client.request(method, url, *args, **kwargs)  # type: ignore
 
     async def ping(self, timeout_seconds: float = 10) -> None:
-        if not self._url:
+        if self._url is None:
             return
         timeout = aiohttp.ClientTimeout(total=timeout_seconds)
         async with self._request("GET", "/api/v1/ping", timeout=timeout) as resp:
@@ -79,7 +83,7 @@ class Client:
             assert txt == "Pong"
 
     async def secured_ping(self, timeout_seconds: float = 10) -> None:
-        if not self._url:
+        if self._url is None:
             return
         timeout = aiohttp.ClientTimeout(total=timeout_seconds)
         async with self._request(
@@ -89,7 +93,7 @@ class Client:
             assert txt == "Pong"
 
     async def notify(self, notification: Notification) -> None:
-        if not self._url:
+        if self._url is None:
             return
         slug = notification.slug()
         schema_cls = SLUG_TO_SCHEMA.get(slug)
