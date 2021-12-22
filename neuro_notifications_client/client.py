@@ -13,7 +13,6 @@ from neuro_notifications_client.schema import SLUG_TO_SCHEMA
 
 from .notifications import Notification
 
-
 logger = logging.getLogger(__name__)
 
 

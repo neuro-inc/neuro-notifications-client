@@ -11,7 +11,6 @@ from neuro_notifications_client import (
 )
 from neuro_notifications_client.notifications import JobNotification, QuotaResourceType
 
-
 # TODO: make this tests more meaningful:
 # at the moment they just test that no exception was raised
 

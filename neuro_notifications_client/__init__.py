@@ -9,7 +9,6 @@ from .notifications import (
     QuotaWillBeReachedSoon,
 )
 
-
 __all__ = [
     "Client",
     "JobCannotStartLackResources",
