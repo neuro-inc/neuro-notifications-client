@@ -43,6 +43,10 @@ repos:
     files: |
       docs/spelling_wordlist.txt|
       .gitignore
+- repo: https://github.com/sondrelg/pep585-upgrade
+  rev: 'v1.0.1'
+  hooks:
+  - id: upgrade-type-hints
 - repo: https://github.com/asottile/pyupgrade
   rev: 'v2.29.1'
   hooks:

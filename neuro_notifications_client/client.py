@@ -1,6 +1,7 @@
 import logging
+from collections.abc import Mapping, Sequence
 from importlib.metadata import version
-from typing import Any, Mapping, Optional, Sequence
+from typing import Any, Optional
 
 import aiohttp
 import aiohttp.web

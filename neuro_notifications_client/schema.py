@@ -1,6 +1,6 @@
 from datetime import timezone
 from enum import Enum
-from typing import Any, Optional, Type
+from typing import Any, Optional
 
 from marshmallow import Schema, fields, post_load, validate
 
@@ -16,7 +16,7 @@ from neuro_notifications_client.notifications import (
 
 
 class StringEnum(fields.String):
-    def __init__(self, enum: Type[Enum], *args: Any, **kwargs: Any) -> None:
+    def __init__(self, enum: type[Enum], *args: Any, **kwargs: Any) -> None:
         super().__init__(
             *args, validate=validate.OneOf([item.value for item in enum]), **kwargs
         )
