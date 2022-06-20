@@ -12,6 +12,7 @@ from neuro_notifications_client.notifications import (
     JobTransition,
     QuotaResourceType,
     QuotaWillBeReachedSoon,
+    Welcome,
 )
 
 
@@ -104,7 +105,16 @@ class QuotaWillBeReachedSoonSchema(Schema):
         return QuotaWillBeReachedSoon(**data)
 
 
+class WelcomeSchema(Schema):
+    user_id = fields.String(required=True)
+
+    @post_load
+    def make_notification(self, data: Any, **kwargs: Any) -> Welcome:
+        return Welcome(**data)
+
+
 SLUG_TO_SCHEMA = {
+    Welcome.slug(): WelcomeSchema,
     JobCannotStartLackResources.slug(): JobCannotStartLackResourcesSchema,
     JobTransition.slug(): JobTransitionSchema,
     JobCannotStartNoCredits.slug(): JobCannotStartNoCreditsSchema,

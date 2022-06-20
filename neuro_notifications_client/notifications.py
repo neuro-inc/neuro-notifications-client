@@ -13,6 +13,15 @@ class Notification(abc.ABC):
         pass
 
 
+@dataclass
+class Welcome(Notification):
+    user_id: str
+
+    @classmethod
+    def slug(cls) -> str:
+        return "welcome"
+
+
 @dataclass  # type: ignore
 class JobNotification(Notification, abc.ABC):
     job_id: str

@@ -63,8 +63,7 @@ jobs:
         python-version: 3.9.9
     - name: Install dependencies
       run: |
-        make setup
-        python -m pip install twine build
+        python -m pip install . twine build
     - name: Make dist
       run: |
         python -m build
