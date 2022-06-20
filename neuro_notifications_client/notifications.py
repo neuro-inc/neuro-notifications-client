@@ -16,6 +16,7 @@ class Notification(abc.ABC):
 @dataclass
 class Welcome(Notification):
     user_id: str
+    email: str
 
     @classmethod
     def slug(cls) -> str:

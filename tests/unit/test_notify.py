@@ -133,7 +133,7 @@ async def test_quota_will_be_reached_soon_notifications(
 
 async def test_welcome_notification(client: Client) -> None:
     # Should not raise anything
-    await client.notify(Welcome(user_id="bob"))
+    await client.notify(Welcome(user_id="bob", email="bob@neu.ro"))
     await client.close()
 
 

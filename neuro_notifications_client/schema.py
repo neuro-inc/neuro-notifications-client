@@ -107,6 +107,7 @@ class QuotaWillBeReachedSoonSchema(Schema):
 
 class WelcomeSchema(Schema):
     user_id = fields.String(required=True)
+    email = fields.Email(required=True)  # type: ignore
 
     @post_load
     def make_notification(self, data: Any, **kwargs: Any) -> Welcome:
