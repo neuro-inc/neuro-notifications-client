@@ -25,7 +25,7 @@ class Welcome(Notification):
         return "welcome"
 
 
-@dataclass  # type: ignore
+@dataclass
 class JobNotification(Notification, abc.ABC):
     job_id: str
 

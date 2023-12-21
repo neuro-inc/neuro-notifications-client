@@ -110,7 +110,7 @@ class QuotaWillBeReachedSoonSchema(Schema):
 
 class WelcomeSchema(Schema):
     user_id = fields.String(required=True)
-    email = fields.Email(required=True)  # type: ignore
+    email = fields.Email(required=True)
 
     @post_load
     def make_notification(self, data: Any, **kwargs: Any) -> Welcome:
@@ -131,7 +131,7 @@ class AlertManagerNotificationSchema(Schema):
         labels = fields.Dict(keys=fields.String(), values=fields.String())
         annotations = fields.Dict(keys=fields.String(), values=fields.String())
 
-        @post_load  # type: ignore
+        @post_load
         def make_alert(
             self, data: Any, **kwargs: Any
         ) -> AlertManagerNotification.Alert:
@@ -151,7 +151,7 @@ class AlertManagerNotificationSchema(Schema):
     )
     alerts = fields.List(fields.Nested(AlertSchema), validate=validate.Length(min=1))
 
-    @post_load  # type: ignore
+    @post_load
     def make_notification(self, data: Any, **kwargs: Any) -> AlertManagerNotification:
         return AlertManagerNotification(**data)
 
