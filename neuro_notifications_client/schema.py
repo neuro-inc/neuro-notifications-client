@@ -1,10 +1,13 @@
+from __future__ import annotations
+
 from datetime import timezone
 from enum import Enum
 from typing import Any, Optional
 
-from marshmallow import Schema, fields, post_load, validate
+from marshmallow import EXCLUDE, Schema, fields, post_load, validate
 
-from neuro_notifications_client.notifications import (
+from .notifications import (
+    AlertManagerNotification,
     CreditsWillRunOutSoon,
     JobCannotStartLackResources,
     JobCannotStartNoCredits,
@@ -114,6 +117,45 @@ class WelcomeSchema(Schema):
         return Welcome(**data)
 
 
+class AlertManagerNotificationSchema(Schema):
+    class Meta:
+        unknown = EXCLUDE
+
+    class AlertSchema(Schema):
+        class Meta:
+            unknown = EXCLUDE
+
+        status = fields.Enum(
+            AlertManagerNotification.Status, by_value=True, required=True
+        )
+        labels = fields.Dict(keys=fields.String(), values=fields.String())
+        annotations = fields.Dict(keys=fields.String(), values=fields.String())
+
+        @post_load  # type: ignore
+        def make_alert(
+            self, data: Any, **kwargs: Any
+        ) -> AlertManagerNotification.Alert:
+            return AlertManagerNotification.Alert(**data)
+
+    version = fields.String(validate=validate.Equal("4"), required=True)
+    group_key = fields.String(data_key="groupKey")
+    status = fields.Enum(AlertManagerNotification.Status, by_value=True, required=True)
+    group_labels = fields.Dict(
+        keys=fields.String(), values=fields.String(), data_key="groupLabels"
+    )
+    common_labels = fields.Dict(
+        keys=fields.String(), values=fields.String(), data_key="commonLabels"
+    )
+    common_annotations = fields.Dict(
+        keys=fields.String(), values=fields.String(), data_key="commonAnnotations"
+    )
+    alerts = fields.List(fields.Nested(AlertSchema), validate=validate.Length(min=1))
+
+    @post_load  # type: ignore
+    def make_notification(self, data: Any, **kwargs: Any) -> AlertManagerNotification:
+        return AlertManagerNotification(**data)
+
+
 SLUG_TO_SCHEMA = {
     Welcome.slug(): WelcomeSchema,
     JobCannotStartLackResources.slug(): JobCannotStartLackResourcesSchema,
@@ -122,4 +164,5 @@ SLUG_TO_SCHEMA = {
     CreditsWillRunOutSoon.slug(): CreditsWillRunOutSoonSchema,
     QuotaWillBeReachedSoon.slug(): QuotaWillBeReachedSoonSchema,
     JobCannotStartQuotaReached.slug(): JobCannotStartQuotaReachedSchema,
+    AlertManagerNotification.slug(): AlertManagerNotificationSchema,
 }

@@ -10,6 +10,7 @@ from neuro_notifications_client import (
     QuotaWillBeReachedSoon,
 )
 from neuro_notifications_client.notifications import (
+    AlertManagerNotification,
     JobNotification,
     QuotaResourceType,
     Welcome,
@@ -134,6 +135,37 @@ async def test_quota_will_be_reached_soon_notifications(
 async def test_welcome_notification(client: Client) -> None:
     # Should not raise anything
     await client.notify(Welcome(user_id="bob", email="bob@neu.ro"))
+    await client.close()
+
+
+async def test_alert_manager_notification(client: Client) -> None:
+    # Should not raise anything
+    await client.notify(
+        AlertManagerNotification(
+            version="4",
+            group_key='{}:{alertname="TraefikDown"}',
+            status=AlertManagerNotification.Status.FIRING,
+            group_labels={"alertname": "TraefikDown"},
+            common_labels={
+                "alertname": "TraefikDown",
+                "cluster": "default",
+                "context": "traefik",
+                "severity": "critical",
+            },
+            common_annotations={"summary": "Traefik Down"},
+            alerts=[
+                AlertManagerNotification.Alert(
+                    status=AlertManagerNotification.Status.FIRING,
+                    labels={
+                        "alertname": "TraefikDown",
+                        "cluster": "default",
+                        "severity": "critical",
+                    },
+                    annotations={"summary": "Traefik Down"},
+                ),
+            ],
+        )
+    )
     await client.close()
 
 

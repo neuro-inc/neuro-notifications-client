@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import abc
 from dataclasses import dataclass
 from datetime import datetime
@@ -100,3 +102,28 @@ class CreditsWillRunOutSoon(Notification):
     @classmethod
     def slug(cls) -> str:
         return "credits-will-run-out-soon"
+
+
+@dataclass
+class AlertManagerNotification(Notification):
+    class Status(str, Enum):
+        RESOLVED = "resolved"
+        FIRING = "firing"
+
+    @dataclass
+    class Alert:
+        status: AlertManagerNotification.Status
+        labels: dict[str, str]
+        annotations: dict[str, str]
+
+    version: str
+    group_key: str
+    status: Status
+    group_labels: dict[str, str]
+    common_labels: dict[str, str]
+    common_annotations: dict[str, str]
+    alerts: list[Alert]
+
+    @classmethod
+    def slug(cls) -> str:
+        return "alert-manager-notification"
