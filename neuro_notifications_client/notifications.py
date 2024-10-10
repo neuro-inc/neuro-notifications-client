@@ -26,6 +26,16 @@ class Welcome(Notification):
 
 
 @dataclass
+class Invite(Notification):
+    org_name: str
+    email: str
+
+    @classmethod
+    def slug(cls) -> str:
+        return "invite"
+
+
+@dataclass
 class JobNotification(Notification, abc.ABC):
     job_id: str
 

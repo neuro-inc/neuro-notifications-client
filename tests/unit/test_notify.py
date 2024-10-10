@@ -14,6 +14,7 @@ from neuro_notifications_client.notifications import (
     JobNotification,
     QuotaResourceType,
     Welcome,
+    Invite,
 )
 
 # TODO: make this tests more meaningful:
@@ -135,6 +136,12 @@ async def test_quota_will_be_reached_soon_notifications(
 async def test_welcome_notification(client: Client) -> None:
     # Should not raise anything
     await client.notify(Welcome(user_id="bob", email="bob@neu.ro"))
+    await client.close()
+
+
+async def test_invite_notification(client: Client) -> None:
+    # Should not raise anything
+    await client.notify(Invite(org_name="test", email="bob@neu.ro"))
     await client.close()
 
 

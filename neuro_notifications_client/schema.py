@@ -16,6 +16,7 @@ from .notifications import (
     QuotaResourceType,
     QuotaWillBeReachedSoon,
     Welcome,
+    Invite,
 )
 
 
@@ -117,6 +118,15 @@ class WelcomeSchema(Schema):
         return Welcome(**data)
 
 
+class InviteSchema(Schema):
+    org_name = fields.String(required=True)
+    email = fields.Email(required=True)
+
+    @post_load
+    def make_notification(self, data: Any, **kwargs: Any) -> Invite:
+        return Invite(**data)
+
+
 class AlertManagerNotificationSchema(Schema):
     class Meta:
         unknown = EXCLUDE
@@ -157,6 +167,7 @@ class AlertManagerNotificationSchema(Schema):
 
 
 SLUG_TO_SCHEMA = {
+    Invite.slug(): InviteSchema,
     Welcome.slug(): WelcomeSchema,
     JobCannotStartLackResources.slug(): JobCannotStartLackResourcesSchema,
     JobTransition.slug(): JobTransitionSchema,
