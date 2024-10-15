@@ -9,6 +9,7 @@ from .notifications import (
     QuotaResourceType,
     QuotaWillBeReachedSoon,
     Welcome,
+    Invite,
 )
 
 __all__ = [
@@ -21,5 +22,6 @@ __all__ = [
     "QuotaResourceType",
     "CreditsWillRunOutSoon",
     "Welcome",
+    "Invite",
     "AlertManagerNotification",
 ]
