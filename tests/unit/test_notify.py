@@ -141,7 +141,9 @@ async def test_welcome_notification(client: Client) -> None:
 
 async def test_invite_notification(client: Client) -> None:
     # Should not raise anything
-    await client.notify(Invite(org_name="test", email="bob@neu.ro"))
+    await client.notify(
+        Invite(org_name="test", email="bob@neu.ro", console_url="test-url")
+    )
     await client.close()
 
 

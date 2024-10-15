@@ -121,6 +121,7 @@ class WelcomeSchema(Schema):
 class InviteSchema(Schema):
     org_name = fields.String(required=True)
     email = fields.Email(required=True)
+    console_url = fields.String(required=True)
 
     @post_load
     def make_notification(self, data: Any, **kwargs: Any) -> Invite:

@@ -29,6 +29,7 @@ class Welcome(Notification):
 class Invite(Notification):
     org_name: str
     email: str
+    console_url: str
 
     @classmethod
     def slug(cls) -> str:
