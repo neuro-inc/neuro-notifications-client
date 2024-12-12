@@ -116,6 +116,25 @@ class CreditsWillRunOutSoon(Notification):
 
 
 @dataclass
+class OrgCreditsWillRunOutSoon(Notification):
+    org_name: str
+    credits: Decimal
+
+    @classmethod
+    def slug(cls) -> str:
+        return "org-credits-will-run-out-soon"
+
+
+@dataclass
+class OrgBalanceTopUp(Notification):
+    org_name: str
+
+    @classmethod
+    def slug(cls) -> str:
+        return "org-balance-top-up"
+
+
+@dataclass
 class AlertManagerNotification(Notification):
     class Status(str, Enum):
         RESOLVED = "resolved"

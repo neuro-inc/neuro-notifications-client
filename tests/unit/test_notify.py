@@ -1,4 +1,5 @@
 from datetime import datetime
+from decimal import Decimal
 
 import pytest
 
@@ -14,7 +15,7 @@ from neuro_notifications_client.notifications import (
     JobNotification,
     QuotaResourceType,
     Welcome,
-    Invite,
+    Invite, OrgCreditsWillRunOutSoon, OrgBalanceTopUp,
 )
 
 # TODO: make this tests more meaningful:
@@ -175,6 +176,44 @@ async def test_alert_manager_notification(client: Client) -> None:
             ],
         )
     )
+    await client.close()
+
+
+@pytest.mark.parametrize(
+    "notification",
+    [
+        OrgCreditsWillRunOutSoon(
+            org_name="org",
+            credits=Decimal("-111.11"),
+        ),
+        OrgCreditsWillRunOutSoon(
+            org_name="org",
+            credits=Decimal("0"),
+        ),
+        OrgCreditsWillRunOutSoon(
+            org_name="org",
+            credits=Decimal("222.22"),
+        ),
+    ],
+)
+async def test_org_credits_will_run_out_soon_notifications(
+    client: Client,
+    notification: OrgCreditsWillRunOutSoon,
+) -> None:
+    # Should not raise anything
+    await client.notify(notification)
+    await client.close()
+
+
+@pytest.mark.parametrize(
+    "notification", [OrgBalanceTopUp(org_name="org")],
+)
+async def test_org_balance_top_up_notifications(
+    client: Client,
+    notification: OrgBalanceTopUp,
+) -> None:
+    # Should not raise anything
+    await client.notify(notification)
     await client.close()
 
 

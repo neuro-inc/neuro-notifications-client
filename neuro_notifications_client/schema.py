@@ -9,6 +9,8 @@ from marshmallow import EXCLUDE, Schema, fields, post_load, validate
 from .notifications import (
     AlertManagerNotification,
     CreditsWillRunOutSoon,
+    OrgCreditsWillRunOutSoon,
+    OrgBalanceTopUp,
     JobCannotStartLackResources,
     JobCannotStartNoCredits,
     JobCannotStartQuotaReached,
@@ -83,6 +85,23 @@ class CreditsWillRunOutSoonSchema(Schema):
     @post_load
     def make_notification(self, data: Any, **kwargs: Any) -> CreditsWillRunOutSoon:
         return CreditsWillRunOutSoon(**data)
+
+
+class OrgCreditsWillRunOutSoonSchema(Schema):
+    org_name = fields.String(required=True)
+    credits = fields.Decimal(required=True, as_string=True)
+
+    @post_load
+    def make_notification(self, data: Any, **kwargs: Any) -> OrgCreditsWillRunOutSoon:
+        return OrgCreditsWillRunOutSoon(**data)
+
+
+class OrgBalanceTopUpSchema(Schema):
+    org_name = fields.String(required=True)
+
+    @post_load
+    def make_notification(self, data: Any, **kwargs: Any) -> OrgBalanceTopUp:
+        return OrgBalanceTopUp(**data)
 
 
 class JobCannotStartQuotaReachedSchema(Schema):
@@ -174,6 +193,8 @@ SLUG_TO_SCHEMA = {
     JobTransition.slug(): JobTransitionSchema,
     JobCannotStartNoCredits.slug(): JobCannotStartNoCreditsSchema,
     CreditsWillRunOutSoon.slug(): CreditsWillRunOutSoonSchema,
+    OrgCreditsWillRunOutSoon.slug(): OrgCreditsWillRunOutSoonSchema,
+    OrgBalanceTopUp.slug(): OrgBalanceTopUpSchema,
     QuotaWillBeReachedSoon.slug(): QuotaWillBeReachedSoonSchema,
     JobCannotStartQuotaReached.slug(): JobCannotStartQuotaReachedSchema,
     AlertManagerNotification.slug(): AlertManagerNotificationSchema,
