@@ -6,6 +6,7 @@ from datetime import datetime
 from decimal import Decimal
 from enum import Enum
 from typing import Optional
+from uuid import UUID
 
 
 class Notification(abc.ABC):
@@ -27,6 +28,7 @@ class Welcome(Notification):
 
 @dataclass
 class Invite(Notification):
+    invite_id: UUID
     org_name: str
     email: str
     console_url: str

@@ -9,16 +9,16 @@ from marshmallow import EXCLUDE, Schema, fields, post_load, validate
 from .notifications import (
     AlertManagerNotification,
     CreditsWillRunOutSoon,
-    OrgCreditsWillRunOutSoon,
-    OrgBalanceTopUp,
+    Invite,
     JobCannotStartLackResources,
     JobCannotStartNoCredits,
     JobCannotStartQuotaReached,
     JobTransition,
+    OrgBalanceTopUp,
+    OrgCreditsWillRunOutSoon,
     QuotaResourceType,
     QuotaWillBeReachedSoon,
     Welcome,
-    Invite,
 )
 
 
@@ -149,6 +149,7 @@ class WelcomeSchema(Schema):
 
 
 class InviteSchema(Schema):
+    invite_id = fields.UUID(required=True)
     org_name = fields.String(required=True)
     email = fields.Email(required=True)
     console_url = fields.String(required=True)
