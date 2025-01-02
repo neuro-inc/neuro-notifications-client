@@ -90,7 +90,7 @@ class CreditsWillRunOutSoonSchema(Schema):
 class OrgCreditsWillRunOutSoonSchema(Schema):
     org_name = fields.String(required=True)
     credits = fields.Decimal(required=True, as_string=True)
-    exceeds_interval_seconds = fields.Integer(
+    seconds_left = fields.Integer(
         required=True,
         allow_none=False,
         validate=[validate.Range(min=0)]

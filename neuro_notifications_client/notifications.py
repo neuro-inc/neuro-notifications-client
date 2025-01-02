@@ -119,7 +119,7 @@ class CreditsWillRunOutSoon(Notification):
 class OrgCreditsWillRunOutSoon(Notification):
     org_name: str
     credits: Decimal
-    exceeds_interval_seconds: int
+    seconds_left: int
     """An integer, representing an interval in seconds, which organization has,
     before the balance reaches zero
     """
