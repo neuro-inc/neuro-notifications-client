@@ -1,5 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
+from uuid import uuid4
 
 import pytest
 
@@ -12,10 +13,12 @@ from neuro_notifications_client import (
 )
 from neuro_notifications_client.notifications import (
     AlertManagerNotification,
+    Invite,
     JobNotification,
+    OrgBalanceTopUp,
+    OrgCreditsWillRunOutSoon,
     QuotaResourceType,
     Welcome,
-    Invite, OrgCreditsWillRunOutSoon, OrgBalanceTopUp,
 )
 
 # TODO: make this tests more meaningful:
@@ -143,7 +146,12 @@ async def test_welcome_notification(client: Client) -> None:
 async def test_invite_notification(client: Client) -> None:
     # Should not raise anything
     await client.notify(
-        Invite(org_name="test", email="bob@neu.ro", console_url="test-url")
+        Invite(
+            invite_id=uuid4(),
+            org_name="test",
+            email="bob@neu.ro",
+            console_url="test-url",
+        )
     )
     await client.close()
 
@@ -208,9 +216,7 @@ async def test_org_credits_will_run_out_soon_notifications(
     await client.close()
 
 
-@pytest.mark.parametrize(
-    "notification", [OrgBalanceTopUp(org_name="org")],
-)
+@pytest.mark.parametrize("notification", [OrgBalanceTopUp(org_name="org")])
 async def test_org_balance_top_up_notifications(
     client: Client,
     notification: OrgBalanceTopUp,
