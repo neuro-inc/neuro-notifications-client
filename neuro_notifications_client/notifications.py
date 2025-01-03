@@ -119,12 +119,9 @@ class CreditsWillRunOutSoon(Notification):
 class OrgCreditsWillRunOutSoon(Notification):
     org_name: str
     credits: Decimal
-    depletion_intervals: list[int]
-    """A list with the depletion intervals for this organizations,
-    in seconds, e.g. [120, 60, -60, ...]
-    """
-    current_depletion_interval_index: int
-    """The index of the currently applied depletion interval
+    seconds_left: int
+    """An integer, representing an interval in seconds, which organization has,
+    before the balance reaches zero
     """
 
     @classmethod

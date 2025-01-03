@@ -185,20 +185,17 @@ async def test_alert_manager_notification(client: Client) -> None:
         OrgCreditsWillRunOutSoon(
             org_name="org",
             credits=Decimal("-111.11"),
-            depletion_intervals=[60, 120],
-            current_depletion_interval_index=0,
+            seconds_left=120,
         ),
         OrgCreditsWillRunOutSoon(
             org_name="org",
             credits=Decimal("0"),
-            depletion_intervals=[60, 120],
-            current_depletion_interval_index=1,
+            seconds_left=120,
         ),
         OrgCreditsWillRunOutSoon(
             org_name="org",
             credits=Decimal("222.22"),
-            depletion_intervals=[60, 120],
-            current_depletion_interval_index=0,
+            seconds_left=120,
         ),
     ],
 )

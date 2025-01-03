@@ -90,16 +90,10 @@ class CreditsWillRunOutSoonSchema(Schema):
 class OrgCreditsWillRunOutSoonSchema(Schema):
     org_name = fields.String(required=True)
     credits = fields.Decimal(required=True, as_string=True)
-    depletion_intervals = fields.List(
-        fields.Integer(),
+    seconds_left = fields.Integer(
         required=True,
         allow_none=False,
-        validate=[validate.Length(min=1)],
-    )
-    current_depletion_interval_index = fields.Integer(
-        required=True,
-        allow_none=False,
-        validate=[validate.Range(min=0)],
+        validate=[validate.Range(min=0)]
     )
 
     @post_load
