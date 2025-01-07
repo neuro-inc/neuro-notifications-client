@@ -19,7 +19,7 @@ from neuro_notifications_client.notifications import (
     OrgCreditsWillRunOutSoon,
     QuotaResourceType,
     Welcome,
-    OrgReachedNegativeBalance,
+    OrgCreditsDepleted,
 )
 
 
@@ -223,7 +223,7 @@ async def test_org_reached_negative_balance_notifications(
 ) -> None:
     # Should not raise anything
     await client.notify(
-        OrgReachedNegativeBalance(
+        OrgCreditsDepleted(
             org_name="org",
             credits=Decimal("-111.11"),
         )

@@ -100,7 +100,7 @@ class OrgCreditsWillRunOutSoon(Notification):
 
 
 @dataclass
-class OrgReachedNegativeBalance(Notification):
+class OrgCreditsDepleted(Notification):
     org_name: str
     credits: Decimal
 
