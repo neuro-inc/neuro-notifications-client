@@ -10,20 +10,18 @@ from uuid import UUID
 
 
 class Notification(abc.ABC):
+
     @classmethod
-    @abc.abstractmethod
     def slug(cls) -> str:
-        pass
+        return ''.join([
+            f'-{x}' if x.isupper() else x for x in cls.__name__
+        ]).lower().lstrip('-')
 
 
 @dataclass
 class Welcome(Notification):
     user_id: str
     email: str
-
-    @classmethod
-    def slug(cls) -> str:
-        return "welcome"
 
 
 @dataclass
@@ -33,10 +31,6 @@ class Invite(Notification):
     email: str
     console_url: str
 
-    @classmethod
-    def slug(cls) -> str:
-        return "invite"
-
 
 @dataclass
 class JobNotification(Notification, abc.ABC):
@@ -45,9 +39,7 @@ class JobNotification(Notification, abc.ABC):
 
 @dataclass
 class JobCannotStartLackResources(JobNotification):
-    @classmethod
-    def slug(cls) -> str:
-        return "job-cannot-start-lack-resources"
+    ...
 
 
 @dataclass
@@ -60,10 +52,6 @@ class JobTransition(JobNotification):
     exit_code: Optional[int] = None
     prev_status: Optional[str] = None
     prev_transition_time: Optional[datetime] = None
-
-    @classmethod
-    def slug(cls) -> str:
-        return "job-transition"
 
 
 class QuotaResourceType(str, Enum):
@@ -78,10 +66,6 @@ class JobCannotStartQuotaReached(Notification):
     quota: float
     cluster_name: str
 
-    @classmethod
-    def slug(cls) -> str:
-        return "job-cannot-start-quota-reached"
-
 
 @dataclass
 class QuotaWillBeReachedSoon(Notification):
@@ -91,19 +75,11 @@ class QuotaWillBeReachedSoon(Notification):
     quota: float
     cluster_name: str
 
-    @classmethod
-    def slug(cls) -> str:
-        return "quota-will-be-reached-soon"
-
 
 @dataclass
 class JobCannotStartNoCredits(Notification):
     user_id: str
     cluster_name: Optional[str] = None
-
-    @classmethod
-    def slug(cls) -> str:
-        return "job-cannot-start-no-credits"
 
 
 @dataclass
@@ -111,10 +87,6 @@ class CreditsWillRunOutSoon(Notification):
     user_id: str
     cluster_name: str
     credits: Decimal
-
-    @classmethod
-    def slug(cls) -> str:
-        return "credits-will-run-out-soon"
 
 
 @dataclass
@@ -126,18 +98,16 @@ class OrgCreditsWillRunOutSoon(Notification):
     before the balance reaches zero
     """
 
-    @classmethod
-    def slug(cls) -> str:
-        return "org-credits-will-run-out-soon"
+
+@dataclass
+class OrgReachedNegativeBalance(Notification):
+    org_name: str
+    credits: Decimal
 
 
 @dataclass
 class OrgBalanceTopUp(Notification):
     org_name: str
-
-    @classmethod
-    def slug(cls) -> str:
-        return "org-balance-top-up"
 
 
 @dataclass
@@ -159,7 +129,3 @@ class AlertManagerNotification(Notification):
     common_labels: dict[str, str]
     common_annotations: dict[str, str]
     alerts: list[Alert]
-
-    @classmethod
-    def slug(cls) -> str:
-        return "alert-manager-notification"

@@ -19,7 +19,9 @@ from neuro_notifications_client.notifications import (
     OrgCreditsWillRunOutSoon,
     QuotaResourceType,
     Welcome,
+    OrgReachedNegativeBalance,
 )
+
 
 # TODO: make this tests more meaningful:
 # at the moment they just test that no exception was raised
@@ -213,6 +215,19 @@ async def test_org_credits_will_run_out_soon_notifications(
 ) -> None:
     # Should not raise anything
     await client.notify(notification)
+    await client.close()
+
+
+async def test_org_reached_negative_balance_notifications(
+    client: Client,
+) -> None:
+    # Should not raise anything
+    await client.notify(
+        OrgReachedNegativeBalance(
+            org_name="org",
+            credits=Decimal("-111.11"),
+        )
+    )
     await client.close()
 
 
