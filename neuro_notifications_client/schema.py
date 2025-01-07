@@ -19,6 +19,7 @@ from .notifications import (
     QuotaResourceType,
     QuotaWillBeReachedSoon,
     Welcome,
+    OrgCreditsDepleted,
 )
 
 
@@ -99,6 +100,11 @@ class OrgCreditsWillRunOutSoonSchema(Schema):
     @post_load
     def make_notification(self, data: Any, **kwargs: Any) -> OrgCreditsWillRunOutSoon:
         return OrgCreditsWillRunOutSoon(**data)
+
+
+class OrgCreditsDepletedSchema(Schema):
+    org_name = fields.String(required=True)
+    credits = fields.Decimal(required=True, as_string=True)
 
 
 class OrgBalanceTopUpSchema(Schema):
@@ -201,6 +207,7 @@ SLUG_TO_SCHEMA = {
     CreditsWillRunOutSoon.slug(): CreditsWillRunOutSoonSchema,
     OrgCreditsWillRunOutSoon.slug(): OrgCreditsWillRunOutSoonSchema,
     OrgBalanceTopUp.slug(): OrgBalanceTopUpSchema,
+    OrgCreditsDepleted.slug(): OrgCreditsDepletedSchema,
     QuotaWillBeReachedSoon.slug(): QuotaWillBeReachedSoonSchema,
     JobCannotStartQuotaReached.slug(): JobCannotStartQuotaReachedSchema,
     AlertManagerNotification.slug(): AlertManagerNotificationSchema,
