@@ -149,7 +149,8 @@ async def test_invite_notification(client: Client) -> None:
         Invite(
             invite_id=uuid4(),
             org_name="test",
-            email="bob@neu.ro",
+            user_name=None,
+            user_email="bob@neu.ro",
             console_url="test-url",
         )
     )

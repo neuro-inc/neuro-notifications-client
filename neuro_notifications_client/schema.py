@@ -91,9 +91,7 @@ class OrgCreditsWillRunOutSoonSchema(Schema):
     org_name = fields.String(required=True)
     credits = fields.Decimal(required=True, as_string=True)
     seconds_left = fields.Integer(
-        required=True,
-        allow_none=False,
-        validate=[validate.Range(min=0)]
+        required=True, allow_none=False, validate=[validate.Range(min=0)]
     )
 
     @post_load
@@ -145,7 +143,8 @@ class WelcomeSchema(Schema):
 class InviteSchema(Schema):
     invite_id = fields.UUID(required=True)
     org_name = fields.String(required=True)
-    email = fields.Email(required=True)
+    user_name = fields.String(required=False)
+    user_email = fields.Email(required=True)
     console_url = fields.String(required=True)
 
     @post_load

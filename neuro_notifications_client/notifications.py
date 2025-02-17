@@ -30,7 +30,8 @@ class Welcome(Notification):
 class Invite(Notification):
     invite_id: UUID
     org_name: str
-    email: str
+    user_name: Optional[str]  # None means this is a new user
+    user_email: str
     console_url: str
 
     @classmethod
