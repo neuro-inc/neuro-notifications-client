@@ -16,10 +16,10 @@ from neuro_notifications_client.notifications import (
     Invite,
     JobNotification,
     OrgBalanceTopUp,
+    OrgCreditsDepleted,
     OrgCreditsWillRunOutSoon,
     QuotaResourceType,
     Welcome,
-    OrgCreditsDepleted,
 )
 
 
@@ -151,8 +151,7 @@ async def test_invite_notification(client: Client) -> None:
         Invite(
             invite_id=uuid4(),
             org_name="test",
-            user_name=None,
-            user_email="bob@neu.ro",
+            email="bob@neu.ro",
             console_url="test-url",
         )
     )

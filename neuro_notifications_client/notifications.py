@@ -28,9 +28,9 @@ class Welcome(Notification):
 class Invite(Notification):
     invite_id: UUID
     org_name: str
-    user_name: Optional[str]  # None means this is a new user
-    user_email: str
+    email: str
     console_url: str
+    user_name: Optional[str] = None  # None means this is a new user
 
 
 @dataclass
