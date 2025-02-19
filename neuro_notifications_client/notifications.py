@@ -30,6 +30,7 @@ class Invite(Notification):
     org_name: str
     email: str
     console_url: str
+    user_name: Optional[str] = None  # None means this is a new user
 
 
 @dataclass

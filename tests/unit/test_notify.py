@@ -16,10 +16,10 @@ from neuro_notifications_client.notifications import (
     Invite,
     JobNotification,
     OrgBalanceTopUp,
+    OrgCreditsDepleted,
     OrgCreditsWillRunOutSoon,
     QuotaResourceType,
     Welcome,
-    OrgCreditsDepleted,
 )
 
 

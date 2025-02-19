@@ -15,11 +15,11 @@ from .notifications import (
     JobCannotStartQuotaReached,
     JobTransition,
     OrgBalanceTopUp,
+    OrgCreditsDepleted,
     OrgCreditsWillRunOutSoon,
     QuotaResourceType,
     QuotaWillBeReachedSoon,
     Welcome,
-    OrgCreditsDepleted,
 )
 
 
@@ -92,9 +92,7 @@ class OrgCreditsWillRunOutSoonSchema(Schema):
     org_name = fields.String(required=True)
     credits = fields.Decimal(required=True, as_string=True)
     seconds_left = fields.Integer(
-        required=True,
-        allow_none=False,
-        validate=[validate.Range(min=0)]
+        required=True, allow_none=False, validate=[validate.Range(min=0)]
     )
 
     @post_load
@@ -151,6 +149,7 @@ class WelcomeSchema(Schema):
 class InviteSchema(Schema):
     invite_id = fields.UUID(required=True)
     org_name = fields.String(required=True)
+    user_name = fields.String(required=False)
     email = fields.Email(required=True)
     console_url = fields.String(required=True)
 
