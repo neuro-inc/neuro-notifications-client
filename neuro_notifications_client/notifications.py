@@ -94,9 +94,14 @@ class CreditsWillRunOutSoon(Notification):
 class OrgCreditsWillRunOutSoon(Notification):
     org_name: str
     credits: Decimal
-    seconds_left: int
-    """An integer, representing an interval in seconds, which organization has,
-    before the balance reaches zero
+    applied_threshold: int
+    """A threshold number (seconds), which was applied during notification dispatching
+    """
+    seconds_left: float
+    """How many seconds left till the balance will reach zero
+    """
+    spending_per_second: float
+    """How many credits does this organization is spending per second
     """
 
 

@@ -91,8 +91,16 @@ class CreditsWillRunOutSoonSchema(Schema):
 class OrgCreditsWillRunOutSoonSchema(Schema):
     org_name = fields.String(required=True)
     credits = fields.Decimal(required=True, as_string=True)
-    seconds_left = fields.Integer(
+    applied_threshold = fields.Integer(
         required=True, allow_none=False, validate=[validate.Range(min=0)]
+    )
+    seconds_left = fields.Float(
+        required=True,
+        allow_none=False,
+    )
+    spending_per_second = fields.Float(
+        required=True,
+        allow_none=False,
     )
 
     @post_load
@@ -103,6 +111,10 @@ class OrgCreditsWillRunOutSoonSchema(Schema):
 class OrgCreditsDepletedSchema(Schema):
     org_name = fields.String(required=True)
     credits = fields.Decimal(required=True, as_string=True)
+
+    @post_load
+    def make_notification(self, data: Any, **kwargs: Any) -> OrgCreditsDepletedSchema:
+        return OrgCreditsDepletedSchema(**data)
 
 
 class OrgBalanceTopUpSchema(Schema):
