@@ -13,9 +13,11 @@ class Notification(abc.ABC):
 
     @classmethod
     def slug(cls) -> str:
-        return ''.join([
-            f'-{x}' if x.isupper() else x for x in cls.__name__
-        ]).lower().lstrip('-')
+        return (
+            "".join([f"-{x}" if x.isupper() else x for x in cls.__name__])
+            .lower()
+            .lstrip("-")
+        )
 
 
 @dataclass
@@ -39,8 +41,7 @@ class JobNotification(Notification, abc.ABC):
 
 
 @dataclass
-class JobCannotStartLackResources(JobNotification):
-    ...
+class JobCannotStartLackResources(JobNotification): ...
 
 
 @dataclass

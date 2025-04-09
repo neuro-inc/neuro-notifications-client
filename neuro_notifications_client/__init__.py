@@ -2,17 +2,17 @@ from .client import Client
 from .notifications import (
     AlertManagerNotification,
     CreditsWillRunOutSoon,
-    OrgCreditsWillRunOutSoon,
-    OrgBalanceTopUp,
-    OrgCreditsDepleted,
+    Invite,
     JobCannotStartLackResources,
     JobCannotStartNoCredits,
     JobCannotStartQuotaReached,
     JobTransition,
+    OrgBalanceTopUp,
+    OrgCreditsDepleted,
+    OrgCreditsWillRunOutSoon,
     QuotaResourceType,
     QuotaWillBeReachedSoon,
     Welcome,
-    Invite,
 )
 
 __all__ = [

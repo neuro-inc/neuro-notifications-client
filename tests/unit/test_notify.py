@@ -22,7 +22,6 @@ from neuro_notifications_client.notifications import (
     Welcome,
 )
 
-
 # TODO: make this tests more meaningful:
 # at the moment they just test that no exception was raised
 
