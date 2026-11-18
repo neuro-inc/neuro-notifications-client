@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections.abc import Mapping
 from datetime import timezone
 from enum import Enum
 from typing import Any, Optional
@@ -30,16 +31,22 @@ class StringEnum(fields.String):
         )
         self.enum = enum
 
-    def _deserialize(self, *args: Any, **kwargs: Any) -> Enum:
-        res: str = super()._deserialize(*args, **kwargs)
+    def _deserialize(
+        self,
+        value: Any,
+        attr: Optional[str],
+        data: Optional[Mapping[str, Any]],
+        **kwargs: Any,
+    ) -> Any:
+        res: str = super()._deserialize(value, attr, data, **kwargs)
         return self.enum(res)
 
     def _serialize(
-        self, value: Optional[Enum], *args: Any, **kwargs: Any
+        self, value: Any, attr: Optional[str], obj: Any, **kwargs: Any
     ) -> Optional[str]:
         if value is None:
             return None
-        return super()._serialize(value.value, *args, **kwargs)
+        return super()._serialize(value.value, attr, obj, **kwargs)
 
 
 class JobCannotStartLackResourcesSchema(Schema):
